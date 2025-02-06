@@ -1,0 +1,37 @@
+name: Destroy SAT Tool
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+permissions:
+  contents: read
+
+jobs:
+  terraform-destroy:
+    name: Run Terraform Destroy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      - name: Configure Databricks Authentication
+        run: |
+          echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST }}" >> $GITHUB_ENV
+          echo "DATABRICKS_CLIENT_ID=${{ secrets.DATABRICKS_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "DATABRICKS_CLIENT_SECRET=${{ secrets.DATABRICKS_CLIENT_SECRET }}" >> $GITHUB_ENV
+
+      - name: Initialize Terraform
+        run: |
+          cd terraform/aws
+          terraform init
+
+      - name: Run Terraform Destroy
+        run: |
+          cd terraform/aws
+          terraform destroy -auto-approve
