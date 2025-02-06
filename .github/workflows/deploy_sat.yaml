@@ -1,30 +1,26 @@
 name: Deploy SAT Tool
 
 on:
-  push:
-    branches:
-      - main  # Runs on push to the main branch
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:  # Allows manual execution of the workflow
 
 permissions:
-  contents: read  # Allow GitHub Actions to read repository content
+  contents: read
 
 jobs:
-  terraform:
-    name: Deploy SAT with Terraform
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: latest
+          terraform_version: 1.5.0  # Adjust this based on your required Terraform version
 
       - name: Initialize Terraform
         run: terraform init
+        working-directory: ./terraform/aws  # Specify the correct directory
 
       - name: Terraform Plan
         run: |
@@ -38,6 +34,7 @@ jobs:
             -var="use_sp_auth=true" \
             -var="proxies={}" \
             -var="run_on_serverless=false"
+        working-directory: ./terraform/aws  # Set working directory
 
       - name: Terraform Apply
         run: |
@@ -51,3 +48,4 @@ jobs:
             -var="use_sp_auth=true" \
             -var="proxies={}" \
             -var="run_on_serverless=false"
+        working-directory: ./terraform/aws  # Set working directory
