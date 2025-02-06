@@ -22,9 +22,9 @@ jobs:
 
       - name: Configure Databricks Authentication
         run: |
-          echo "DATABRICKS_HOST=${{ secrets.DATABRICKS_HOST }}" >> $GITHUB_ENV
-          echo "DATABRICKS_CLIENT_ID=${{ secrets.DATABRICKS_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "DATABRICKS_CLIENT_SECRET=${{ secrets.DATABRICKS_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "DATABRICKS_HOST=${{ secrets.databricks_url }}" >> $GITHUB_ENV
+          echo "DATABRICKS_CLIENT_ID=${{ secrets.client_id }}" >> $GITHUB_ENV
+          echo "DATABRICKS_CLIENT_SECRET=${{ secrets.client_secret }}" >> $GITHUB_ENV
 
       - name: Initialize Terraform
         run: |
