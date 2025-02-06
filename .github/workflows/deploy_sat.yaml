@@ -15,10 +15,6 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Authenticate with Databricks
-        run: |
-          databricks configure --host=${{ secrets.DATABRICKS_URL }} --token=${{ secrets.CLIENT_SECRET }}
-
       - name: Initialize Terraform
         run: terraform init
         working-directory: ./terraform/aws
