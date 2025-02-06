@@ -43,4 +43,4 @@ jobs:
           echo "TF_VAR_use_sp_auth=${{ secrets.USE_SP_AUTH }}" >> $GITHUB_ENV
 
       - name: Apply Terraform Changes
-        run: terraform -chdir=terraform/aws destroy -auto-approve tfplan
+        run: terraform -chdir=terraform/aws destroy -auto-approve
