@@ -42,11 +42,5 @@ jobs:
           echo "TF_VAR_run_on_serverless=${{ secrets.RUN_ON_SERVERLESS }}" >> $GITHUB_ENV
           echo "TF_VAR_use_sp_auth=${{ secrets.USE_SP_AUTH }}" >> $GITHUB_ENV
 
-      - name: Validate Terraform
-        run: terraform -chdir=terraform/aws validate
-
-      - name: Plan Terraform Deployment
-        run: terraform -chdir=terraform/aws plan -out=tfplan
-
       - name: Apply Terraform Changes
         run: terraform -chdir=terraform/aws destroy -auto-approve tfplan
