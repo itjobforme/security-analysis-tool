@@ -22,16 +22,19 @@ jobs:
     - name: "Terraform Init"
       run: terraform init
 
-    - name: "Terraform Plan"
-      run: terraform plan -var="databricks_url=${{ secrets.DATABRICKS_URL }}" \
-                          -var="workspace_id=${{ secrets.WORKSPACE_ID }}" \
-                          -var="account_console_id=${{ secrets.ACCOUNT_CONSOLE_ID }}" \
-                          -var="analysis_schema_name=${{ secrets.ANALYSIS_SCHEMA_NAME }}" \
-                          -var="client_id=${{ secrets.DATABRICKS_CLIENT_ID }}" \
-                          -var="client_secret=${{ secrets.DATABRICKS_CLIENT_SECRET }}" \
-                          -var="use_sp_auth=true" \
-                          -var="proxies={}" \
-                          -var="run_on_serverless=false"
+- name: Terraform Plan
+  run: |
+    terraform plan \
+      -var="databricks_url=${{ secrets.DATABRICKS_URL }}" \
+      -var="workspace_id=${{ secrets.WORKSPACE_ID }}" \
+      -var="account_console_id=${{ secrets.ACCOUNT_CONSOLE_ID }}" \
+      -var="analysis_schema_name=${{ secrets.ANALYSIS_SCHEMA_NAME }}" \
+      -var="client_id=${{ secrets.CLIENT_ID }}" \
+      -var="client_secret=${{ secrets.CLIENT_SECRET }}" \
+      -var="use_sp_auth=true" \
+      -var="proxies={}" \
+      -var="run_on_serverless=false"
+
 
     - name: "Terraform Apply"
       run: terraform apply -auto-approve -var="databricks_url=${{ secrets.DATABRICKS_URL }}" \
