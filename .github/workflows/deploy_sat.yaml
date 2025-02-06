@@ -23,10 +23,12 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Initialize Terraform with Backend Configuration
-        run: terraform init -backend-config="bucket=widgetco.co" \
-                            -backend-config="key=terraform/state/terraform.tfstate" \
-                            -backend-config="region=us-east-1" \
-                            -backend-config="encrypt=true"
+        run: |
+          terraform init \
+            -backend-config="bucket=widgetco.co" \
+            -backend-config="key=terraform/state/terraform.tfstate" \
+            -backend-config="region=${{ secrets.AWS_REGION }}" \
+            -backend-config="encrypt=true"
 
       - name: Set Databricks Environment Variables
         run: |
